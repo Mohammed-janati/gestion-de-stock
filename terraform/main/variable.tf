@@ -35,7 +35,7 @@ variable "db_username" {
 
 }
 variable "db_password" {
-  default = "admin@123@"
+  default = "MySQL_2025#db"
   type= string
   description = "database password"
   sensitive = true
