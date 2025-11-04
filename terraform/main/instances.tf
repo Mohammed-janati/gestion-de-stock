@@ -34,6 +34,12 @@ resource "aws_security_group" "frontend" {
     to_port = 80
     protocol = "tcp"
   }
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"] # ⚠️ only for testing
+  }
 
   egress {
     from_port = 0
@@ -81,6 +87,12 @@ resource "aws_security_group" "BACKEND" {
     to_port = 8080
     protocol = "tcp"
     security_groups = [aws_security_group.frontend.id]
+  }
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"] # ⚠️ only for testing
   }
 
   egress {
