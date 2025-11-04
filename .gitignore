@@ -1,0 +1,21 @@
+# Terraform
+terraform/bootstrap/
+.terraform/
+*.tfstate
+*.tfstate.*
+terraform.tfvars
+
+# Docker
+docker-compose.yml
+
+# Node / Angular
+node_modules/
+dist/
+
+# Java / Maven
+target/
+
+# IDE / System
+.vscode/
+.idea/
+.DS_Store

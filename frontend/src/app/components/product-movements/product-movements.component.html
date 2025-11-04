@@ -1,0 +1,120 @@
+<div class="movements-container">
+  <div class="movements-header">
+    <h2 class="movements-title">Movement History</h2>
+    <p class="movements-subtitle">{{ productName }}</p>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-state">
+    <div class="loading-spinner"></div>
+    <p>Loading movements...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error" class="error-state">
+    <div class="error-icon">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+        <line x1="15" y1="9" x2="9" y2="15" stroke="currentColor" stroke-width="2"/>
+        <line x1="9" y1="9" x2="15" y2="15" stroke="currentColor" stroke-width="2"/>
+      </svg>
+    </div>
+    <h3>Error Loading Movements</h3>
+    <p>{{ error }}</p>
+    <button class="retry-btn" (click)="loadMovements()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M23 4V10H17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M20.49 15A9 9 0 1 1 5.64 5.64L23 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Try Again
+    </button>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!loading && !error && movements.length === 0" class="empty-movements">
+    <div class="empty-icon">
+      <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M9 12L11 14L15 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+      </svg>
+    </div>
+    <h3>No Movements Found</h3>
+    <p>This product doesn't have any movement history yet.</p>
+  </div>
+
+  <!-- Movements List -->
+  <div *ngIf="!loading && !error && movements.length > 0" class="movements-list">
+    <div *ngFor="let movement of movements; let i = index" class="movement-item" [style.animation-delay]="(i * 0.1) + 's'">
+      <div class="movement-header">
+        <div class="movement-type" [ngClass]="getMovementTypeClass(movement.movementType)">
+          <div class="movement-icon">
+            <svg *ngIf="getMovementTypeIcon(movement.movementType) === 'arrow-up'" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M7 14L12 9L17 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <svg *ngIf="getMovementTypeIcon(movement.movementType) === 'arrow-down'" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <span class="movement-type-text">{{ getMovementTypeText(movement.movementType) }}</span>
+        </div>
+        <div class="movement-date">{{ formatDate(movement.timestamp || '') }}</div>
+      </div>
+
+      <div class="movement-content">
+        <div class="movement-details">
+          <div class="detail-row">
+            <span class="detail-label">Quantity:</span>
+            <span class="detail-value quantity" [ngClass]="getMovementTypeClass(movement.movementType)">
+              {{ movement.movementType === 'IN' ? '+' : '-' }}{{ movement.quantity }}
+            </span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Cause:</span>
+            <span class="detail-value cause" [ngClass]="getCauseClass(movement.cause)">
+              {{ getCauseText(movement.cause) }}
+            </span>
+          </div>
+          <div class="detail-row" *ngIf="movement.id">
+            <span class="detail-label">Movement ID:</span>
+            <span class="detail-value id">#{{ movement.id }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="movement-footer">
+        <div class="movement-timestamp">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+            <polyline points="12,6 12,12 16,14" stroke="currentColor" stroke-width="2"/>
+          </svg>
+          {{ formatDate(movement.timestamp || '') }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Summary Section -->
+  <div *ngIf="!loading && !error && movements.length > 0" class="movements-summary">
+    <div class="summary-card">
+      <h3>Movement Summary</h3>
+      <div class="summary-stats">
+        <div class="stat-item">
+          <div class="stat-value total-in">
+          </div>
+          <div class="stat-label">Total In</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value total-out">
+          </div>
+          <div class="stat-label">Total Out</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value total-movements">
+            {{ movements.length }}
+          </div>
+          <div class="stat-label">Total Movements</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

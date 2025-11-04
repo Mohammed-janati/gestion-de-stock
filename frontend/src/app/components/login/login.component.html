@@ -1,0 +1,65 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-4">
+      <div class="card shadow">
+        <div class="card-body">
+          <h2 class="card-title text-center mb-4">Login</h2>
+
+          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <!-- Username Field -->
+            <div class="mb-3">
+              <label  class="form-label">Username</label>
+              <input
+                type="text" class="form-control" formControlName="username" >
+<!--                class="form-control"-->
+<!--                id="username"-->
+<!--                formControlName="username"-->
+<!--                -->
+<!--                placeholder="Enter your username"-->
+
+
+              <div *ngIf="username?.invalid && username?.touched" class="invalid-feedback">
+                <div *ngIf="username?.errors?.['required']">Username is required</div>
+                <div *ngIf="username?.errors?.['minlength']">Username must be at least 3 characters</div>
+              </div>
+            </div>
+
+            <!-- Password Field -->
+            <div class="mb-3">
+              <label  class="form-label">Password</label>
+              <input type="password" class="form-control" formControlName="password" placeholder="Enter your password"/>
+              <div *ngIf="password?.invalid && password?.touched" class="invalid-feedback">
+                <div *ngIf="password?.errors?.['required']">Password is required</div>
+                <div *ngIf="password?.errors?.['minlength']">Password must be at least 6 characters</div>
+              </div>
+            </div>
+
+            <!-- Error Message -->
+            <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+              {{ errorMessage }}
+            </div>
+
+            <!-- Submit Button -->
+            <div class="d-grid">
+              <button
+                type="submit"
+                class="btn btn-primary"
+                [disabled]="isLoading || loginForm.invalid"
+              >
+                <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                {{ isLoading ? 'Logging in...' : 'Login' }}
+              </button>
+            </div>
+          </form>
+
+          <!-- Register Link -->
+          <div class="text-center mt-3">
+            <p class="mb-0">Don't have an account?
+              <a routerLink="/register" class="text-decoration-none">Register here</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

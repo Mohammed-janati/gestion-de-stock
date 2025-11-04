@@ -1,0 +1,94 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-4">
+      <div class="card shadow">
+        <div class="card-body">
+          <h2 class="card-title text-center mb-4">Register</h2>
+          
+          <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+            <!-- Username Field -->
+            <div class="mb-3">
+              <label for="username" class="form-label">Username</label>
+              <input
+                type="text"
+                class="form-control"
+                id="username"
+                formControlName="username"
+                [class.is-invalid]="username?.invalid && username?.touched"
+                placeholder="Enter your username"
+              >
+              <div *ngIf="username?.invalid && username?.touched" class="invalid-feedback">
+                <div *ngIf="username?.errors?.['required']">Username is required</div>
+                <div *ngIf="username?.errors?.['minlength']">Username must be at least 3 characters</div>
+                <div *ngIf="username?.errors?.['maxlength']">Username must not exceed 50 characters</div>
+              </div>
+            </div>
+
+            <!-- Password Field -->
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input
+                type="password"
+                class="form-control"
+                id="password"
+                formControlName="password"
+                [class.is-invalid]="password?.invalid && password?.touched"
+                placeholder="Enter your password"
+              >
+              <div *ngIf="password?.invalid && password?.touched" class="invalid-feedback">
+                <div *ngIf="password?.errors?.['required']">Password is required</div>
+                <div *ngIf="password?.errors?.['minlength']">Password must be at least 6 characters</div>
+              </div>
+            </div>
+
+            <!-- Confirm Password Field -->
+            <div class="mb-3">
+              <label for="confirmPassword" class="form-label">Confirm Password</label>
+              <input
+                type="password"
+                class="form-control"
+                id="confirmPassword"
+                formControlName="confirmPassword"
+                [class.is-invalid]="confirmPassword?.invalid && confirmPassword?.touched"
+                placeholder="Confirm your password"
+              >
+              <div *ngIf="confirmPassword?.invalid && confirmPassword?.touched" class="invalid-feedback">
+                <div *ngIf="confirmPassword?.errors?.['required']">Please confirm your password</div>
+                <div *ngIf="confirmPassword?.errors?.['passwordMismatch']">Passwords do not match</div>
+              </div>
+            </div>
+
+            <!-- Error Message -->
+            <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+              {{ errorMessage }}
+            </div>
+
+            <!-- Success Message -->
+            <div *ngIf="successMessage" class="alert alert-success" role="alert">
+              {{ successMessage }}
+            </div>
+
+            <!-- Submit Button -->
+            <div class="d-grid">
+              <button
+                type="submit"
+                class="btn btn-primary"
+                [disabled]="isLoading || registerForm.invalid"
+              >
+                <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                {{ isLoading ? 'Registering...' : 'Register' }}
+              </button>
+            </div>
+          </form>
+
+          <!-- Login Link -->
+          <div class="text-center mt-3">
+            <p class="mb-0">Already have an account? 
+              <a routerLink="/login" class="text-decoration-none">Login here</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
