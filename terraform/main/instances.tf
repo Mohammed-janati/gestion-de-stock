@@ -5,6 +5,24 @@ resource "aws_instance" "frontend" {
   instance_type = var.frontinstanceType
 
   tags = {Name="stock app frontend"}
+
+  user_data = <<-EOF
+              #!/bin/bash
+              apt-get update -y
+              apt-get install -y docker.io
+              systemctl start docker
+              systemctl enable docker
+
+
+              docker pull ${DOCKERHUB_USERNAME}/frontend:latest
+
+              docker run -d --name frontend \
+                -p 80:80 \
+                -e API_URL="http://${aws_instance.backend.private_ip}:8080" \
+                ${DOCKER_HUB_USER}/frontend:latest
+              EOF
+
+
 }
 
 
@@ -33,6 +51,26 @@ resource "aws_instance" "backend" {
   instance_type = var.backinstanceType
 
   tags = {Name="stock app backend"}
+
+  user_data = <<-EOF
+            #!/bin/bash
+            apt-get update -y
+            apt-get install -y docker.io
+            systemctl start docker
+            systemctl enable docker
+
+            docker login -u "${DOCKER_HUB_USER}" -p "${DOCKER_HUB_TOKEN}"
+            docker pull ${DOCKER_HUB_USER}/backend:latest
+
+            docker run -d --name backend \
+              -p 8080:8080 \
+              -e SECRET="${jwt_secret}" \
+              -e ALLOWED_CONSUMER="http://${aws_instance.frontend.public_ip}" \
+              -e SPRING_DATASOURCE_URL="jdbc:mysql://${aws_db_instance.db.address}:3306/stockapp?createDatabaseIfNotExist=true" \
+              -e SPRING_DATASOURCE_USERNAME="${var.db_username}" \
+              -e SPRING_DATASOURCE_PASSWORD="${var.db_password}" \
+              ${DOCKER_HUB_USER}/backend:latest
+            EOF
 }
 
 resource "aws_security_group" "BACKEND" {
