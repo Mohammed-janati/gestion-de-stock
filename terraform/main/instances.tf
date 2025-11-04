@@ -1,6 +1,6 @@
 resource "aws_instance" "frontend" {
   subnet_id = aws_subnet.public_subnet.id
-vpc_security_group_ids = [aws_security_group.frontend.id]
+  vpc_security_group_ids = [aws_security_group.frontend.id]
   ami = var.frontAMI
   instance_type = var.frontinstanceType
 
@@ -63,7 +63,7 @@ resource "aws_db_instance" "db" {
   vpc_security_group_ids = [aws_security_group.db.id]
 
   identifier = "stockapp-db"
-  allocated_storage = 20
+  allocated_storage = 10
   engine = "mysql"
   engine_version = "8.0"
   instance_class = "db.t3.micro"
