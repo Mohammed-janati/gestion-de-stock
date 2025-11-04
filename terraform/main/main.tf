@@ -2,7 +2,7 @@ terraform {
   backend "s3" {
     bucket         = "my-dynamic-tf-state"
     key            = "infra/main/terraform.tfstate"
-    region         = "eu-west-1"
+    region         = "af-south-1"
     use_lockfile  = true
     encrypt        = true
   }
