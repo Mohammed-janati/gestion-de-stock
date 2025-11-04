@@ -157,8 +157,8 @@ jobs:
       run:
         working-directory: ./terraform/main
     env:
-      TF_VAR_DOCKER_HUB_USER: ${{ secrets.DOCKER_HUB_USER }}
-      TF_VAR_DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}
+      TF_VAR_DOCKER_HUB_USER: ${{ secrets.DOCKERHUB_USERNAME }}
+      TF_VAR_DOCKER_HUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
       TF_VAR_jwt_secret: ${{ secrets.JWT_SECRET }}
 
     steps:
