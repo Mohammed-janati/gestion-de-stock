@@ -14,12 +14,12 @@ resource "aws_instance" "frontend" {
               systemctl enable docker
 
 
-              docker pull ${DOCKERHUB_USERNAME}/frontend:latest
+              docker pull ${var.DOCKER_HUB_USER}/frontend:latest
 
               docker run -d --name frontend \
                 -p 80:80 \
                 -e API_URL="http://${aws_instance.backend.private_ip}:8080" \
-                ${DOCKER_HUB_USER}/frontend:latest
+                ${var.DOCKER_HUB_USER}/frontend:latest
               EOF
 
 
@@ -59,17 +59,17 @@ resource "aws_instance" "backend" {
             systemctl start docker
             systemctl enable docker
 
-            docker login -u "${DOCKER_HUB_USER}" -p "${DOCKER_HUB_TOKEN}"
-            docker pull ${DOCKER_HUB_USER}/backend:latest
+            docker login -u "${var.DOCKER_HUB_USER}" -p "${var.DOCKER_HUB_TOKEN}"
+            docker pull ${var.DOCKER_HUB_USER}/backend:latest
 
             docker run -d --name backend \
               -p 8080:8080 \
-              -e SECRET="${jwt_secret}" \
+              -e SECRET="${var.jwt_secret}" \
               -e ALLOWED_CONSUMER="*" \
               -e SPRING_DATASOURCE_URL="jdbc:mysql://${aws_db_instance.db.address}:3306/stockapp?createDatabaseIfNotExist=true" \
               -e SPRING_DATASOURCE_USERNAME="${var.db_username}" \
               -e SPRING_DATASOURCE_PASSWORD="${var.db_password}" \
-              ${DOCKER_HUB_USER}/backend:latest
+              ${var.DOCKER_HUB_USER}/backend:latest
             EOF
 }
 

@@ -41,3 +41,17 @@ variable "db_password" {
   sensitive = true
 }
 
+variable "DOCKER_HUB_USER" {
+  description = "Docker Hub username"
+}
+
+variable "DOCKER_HUB_TOKEN" {
+  description = "Docker Hub access token"
+  sensitive   = true
+}
+
+variable "jwt_secret" {
+  description = "JWT secret key"
+  sensitive   = true
+}
+
