@@ -70,6 +70,7 @@ resource "aws_db_instance" "db" {
   username = var.db_username
   password = var.db_password
   skip_final_snapshot = true
+  availability_zone       = "af-south-1a"
 
 tags = {Name="stock app db"}
 }
