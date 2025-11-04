@@ -55,9 +55,10 @@ resource "aws_security_group" "BACKEND" {
 
     #database----------------------
 resource "aws_db_subnet_group" "db_subnet" {
-  subnet_ids = [aws_subnet.private_subnet.id]
+  subnet_ids = [aws_subnet.private_subnet.id,aws_subnet.private_subnet2.id]
   tags = {Name="db subnet group name"}
 }
+
 resource "aws_db_instance" "db" {
   db_subnet_group_name = aws_db_subnet_group.db_subnet.name
   vpc_security_group_ids = [aws_security_group.db.id]
@@ -70,7 +71,8 @@ resource "aws_db_instance" "db" {
   username = var.db_username
   password = var.db_password
   skip_final_snapshot = true
-  availability_zone       = "af-south-1a"
+  availability_zone = "af-south-1a"
+  multi_az = false
 
 tags = {Name="stock app db"}
 }
