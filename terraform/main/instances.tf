@@ -65,7 +65,7 @@ resource "aws_instance" "backend" {
             docker run -d --name backend \
               -p 8080:8080 \
               -e SECRET="${jwt_secret}" \
-              -e ALLOWED_CONSUMER="http://${aws_instance.frontend.public_ip}" \
+              -e ALLOWED_CONSUMER="*" \
               -e SPRING_DATASOURCE_URL="jdbc:mysql://${aws_db_instance.db.address}:3306/stockapp?createDatabaseIfNotExist=true" \
               -e SPRING_DATASOURCE_USERNAME="${var.db_username}" \
               -e SPRING_DATASOURCE_PASSWORD="${var.db_password}" \
