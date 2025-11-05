@@ -51,7 +51,7 @@ resource "aws_security_group" "frontend" {
 
     #backend-----------------
 resource "aws_instance" "backend" {
-  subnet_id = aws_subnet.private_subnet.id
+  subnet_id = aws_subnet.public_subnet.id
   vpc_security_group_ids = [aws_security_group.BACKEND.id]
   ami = var.backAMI
   instance_type = var.backinstanceType
@@ -92,7 +92,7 @@ resource "aws_security_group" "BACKEND" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"] # ⚠️ only for testing
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
@@ -105,7 +105,7 @@ resource "aws_security_group" "BACKEND" {
 
     #database----------------------
 resource "aws_db_subnet_group" "db_subnet" {
-  subnet_ids = [aws_subnet.private_subnet.id,aws_subnet.private_subnet2.id]
+  subnet_ids = [aws_subnet.public_subnet.id,aws_subnet.public_subnet.id]
   tags = {Name="db subnet group name"}
 }
 
