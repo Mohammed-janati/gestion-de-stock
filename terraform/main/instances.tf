@@ -86,7 +86,8 @@ resource "aws_security_group" "BACKEND" {
     from_port = 8080
     to_port = 8080
     protocol = "tcp"
-    security_groups = [aws_security_group.frontend.id]
+    cidr_blocks = ["0.0.0.0/0"]
+    # security_groups = [aws_security_group.frontend.id]
   }
   ingress {
     from_port   = 22
