@@ -29,7 +29,7 @@ resource "aws_lb" "backend_lb" {
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.alb_sg.id]
-  subnets            = [aws_subnet.public_subnet.id]
+  subnets            = [aws_subnet.public_subnet.id,aws_subnet.public_subnet2.id]
 
   enable_deletion_protection = false
 }
@@ -46,10 +46,7 @@ resource "aws_lb_target_group" "backend_tg" {
   health_check {
     path                = "/"
     port                = "8080"
-    healthy_threshold   = 2
-    unhealthy_threshold = 2
-    timeout             = 5
-    interval            = 15
+
     matcher             = "200-399"
   }
 }
