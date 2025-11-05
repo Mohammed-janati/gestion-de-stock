@@ -27,7 +27,7 @@ import java.util.List;
 public class securityConfig {
     private final userRepo userRepository; // injected repository
 
-    @Value("${allowedConsumer}")
+    @Value("${allowedConsumer:*}")
     private List<String> allowedConsumer;
     public securityConfig(userRepo userRepository) {
         this.userRepository = userRepository;
@@ -67,7 +67,15 @@ public class securityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(allowedConsumer); // frontend URL
+
+        if (!allowedConsumer.contains("*")) {
+            // ✅ Safe way to allow all origins
+            configuration.setAllowedOrigins(allowedConsumer);
+
+        } else {
+            configuration.setAllowedOriginPatterns(List.of("*"));
+        }
+        
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true); // allow cookies / auth headers if needed
