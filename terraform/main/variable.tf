@@ -23,7 +23,7 @@ variable "backAMI" {
 
 }
 variable "availableZone" {
-  default = "af-south-1"
+  default = "af-south-1a"
   type= string
 
 
