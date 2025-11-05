@@ -105,7 +105,7 @@ resource "aws_security_group" "BACKEND" {
 
     #database----------------------
 resource "aws_db_subnet_group" "db_subnet" {
-  subnet_ids = [aws_subnet.public_subnet.id,aws_subnet.public_subnet.id]
+  subnet_ids = [aws_subnet.public_subnet.id,aws_subnet.public_subnet2.id]
   tags = {Name="db subnet group name"}
 }
 
