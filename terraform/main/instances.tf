@@ -18,7 +18,7 @@ resource "aws_instance" "frontend" {
 
               docker run -d --name frontend \
                 -p 80:80 \
-                -e API_URL="http://${aws_lb.backend_lb.dns_name}" \
+                -e API_URL="http://${aws_instance.backend.public_ip}:8080" \
                 ${var.DOCKER_HUB_USER}/frontend:latest
               EOF
 
