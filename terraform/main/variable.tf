@@ -22,6 +22,12 @@ variable "backAMI" {
   description = "back end instance ami"
 
 }
+variable "availableZone" {
+  default = "af-south-1"
+  type= string
+
+
+}
 variable "backinstanceType" {
   default = "t3.micro"
   type= string

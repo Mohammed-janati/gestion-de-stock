@@ -3,7 +3,7 @@ resource "aws_instance" "frontend" {
   vpc_security_group_ids = [aws_security_group.frontend.id]
   ami = var.frontAMI
   instance_type = var.frontinstanceType
-
+availability_zone = var.availableZone
   tags = {Name="stock app frontend"}
 
   user_data = <<-EOF
