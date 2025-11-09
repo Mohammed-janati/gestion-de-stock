@@ -75,7 +75,7 @@ public class securityConfig {
         } else {
             configuration.setAllowedOriginPatterns(List.of("*"));
         }
-        
+
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true); // allow cookies / auth headers if needed
