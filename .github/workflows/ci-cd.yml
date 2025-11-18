@@ -5,7 +5,7 @@ on:
       - main
   pull_request:
     branches:
-      - main
+      - main 
 
 
 
@@ -151,6 +151,7 @@ jobs:
 
 
   building_Infra:
+    needs: containerisation
     runs-on: ubuntu-latest
     defaults:
       run:
